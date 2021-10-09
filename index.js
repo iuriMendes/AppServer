@@ -10,7 +10,8 @@ mongoose.connect(
   "mongodb+srv://ort:1234@cluster0.yzjai.mongodb.net/DApps?retryWrites=true&w=majority",
   { useNewUrlParser: true }
 );
-let PORT = process.env.PORT || 3000;
+
+let PORT = process.env.PORT || 4000;
 let Usuario = require("./models/Usuario");
 let Producto = require("./models/Producto");
 const middleware = require("./middlewares/middlewares");
@@ -28,7 +29,7 @@ app.set("llave", config.llave);
 
 app.use((req, res, next) => {
   console.log("Pasa por el middleware");
-  //res.send("Logueate");
+  // res.send("Logueate");
   next();
 });
 
@@ -47,7 +48,7 @@ app.get("/login", (req, res) => {
           check: true,
         };
         const token = jwt.sign(payload, app.get("llave"), {
-          expiresIn: 1440,
+          expiresIn: 14400,
         });
         res.json({
           usuarioLogueado: usuario,
@@ -67,7 +68,7 @@ app.get("/info", (req, res) => {
   res.send("Bienvenido al servidor, está en INFO");
 });
 
-//GET a la base de MongoDB
+//GET a la base de MongoDB middleware.validaToken,
 app.get("/listadousuarios", middleware.validaToken, (req, res) => {
   console.log("Llegamos a la peticion get de base");
 
@@ -158,16 +159,16 @@ app.get("/listadoproductos", (req, res) => {
     }
   });
 });
-//borrar con id 615dff1bfd6539f39a71f4c8
-// app.delete("/delete/:id", (req, res) => {
-//   Usuario.findByIdAndDelete(req.params.id, (err, usuario) => {
-//     if (err) {
-//       res.json({ mensaje: "Error al borrar" });
-//     } else {
-//       res.json(response);
-//     }
-//   });
-// });
+// borrar con id /delete?id=615d98aa1ae0c19f00f80efc
+app.delete("/delete", (req, res) => {
+  Usuario.findByIdAndDelete(req.query.id, (err, response) => {
+    if (err) {
+      res.json({ mensaje: "Error al borrar" });
+    } else {
+      res.json(response);
+    }
+  });
+});
 
 //insertar user en la base Usuarios
 app.post("/insertar", (req, res) => {

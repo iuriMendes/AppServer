@@ -6,11 +6,9 @@ let usuarioSchema = new schema({
   apellido: String,
   telefono: String,
   mail: String,
-  ci: Number,
   contrasena: String,
-  id_productos: Array,
-  id_pedidos: Array,
-  id_pickups: Array,
+  tiendas: Array,
+  creacion: Date,
 });
 
 let Usuario = mongoose.model("Usuario", usuarioSchema);

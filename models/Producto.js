@@ -6,8 +6,8 @@ let productoSchema = new schema({
   descripcion: String,
   img: Array,
   precio: Number,
-  tiempo_elaboracion: String,
-  user: String,
+  tiempoElaboracion: String,
+  tienda: String,
 });
 
 let Producto = mongoose.model("Producto", productoSchema);
